@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import * as Progress from "@radix-ui/react-progress";
+import { motion } from "framer-motion";
 
 type RadialProgressProps = {
   value: number;
@@ -18,6 +19,7 @@ const RadialProgress = ({
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference - (value / 100) * circumference;
+  const progressPercentage = `${value}%`;
 
   return (
     <div
@@ -60,12 +62,12 @@ const RadialProgress = ({
       </Progress.Root>
       <div className="absolute inset-0 flex items-center justify-center text-primary">
         <span
-          className="font-semibold"
+          className="block font-semibold"
           style={{
             fontSize: size / 4,
           }}
         >
-          {value}%
+          {progressPercentage}
         </span>
       </div>
     </div>
