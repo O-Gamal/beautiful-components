@@ -1,19 +1,19 @@
+"use client";
+
 import NavButton from "../_components/navButton";
-import { cn } from "@/lib/utils";
 import { Logo } from "@/components/Logo";
 import { Profile } from "@/components/profile";
 import { Card } from "@/components/card";
 import { SidebarProps } from "./types";
 import { CircleAlert } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import Handler from "./handler";
+import { useState } from "react";
 
-const Sidebar = ({
-  expanded,
-  primaryNavItems,
-  secondaryNavItems,
-}: SidebarProps) => {
+const Sidebar = ({ primaryNavItems, secondaryNavItems }: SidebarProps) => {
+  const [expanded, setExpanded] = useState(false);
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence initial={false}>
       <motion.aside
         animate={{ width: expanded ? "240px" : "56px" }}
         transition={{ duration: 0.4 }}
@@ -53,6 +53,12 @@ const Sidebar = ({
             expanded={expanded}
           />
         </div>
+        <Handler
+          className="absolute top-1/2 right-0 -translate-y-1/2"
+          width={5}
+          expanded={expanded}
+          setExpanded={setExpanded}
+        />
       </motion.aside>
     </AnimatePresence>
   );

@@ -1,6 +1,3 @@
-"use client";
-
-import { Switch } from "@/components/ui/switch";
 import Sidebar from "./_components/sidebar";
 import {
   Archive,
@@ -11,7 +8,6 @@ import {
   Package,
   Settings,
 } from "lucide-react";
-import { useState } from "react";
 
 const primaryNavItems = [
   {
@@ -55,17 +51,13 @@ const secondaryNavItems = [
 ];
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
-  const [expanded, setExpanded] = useState(true);
-
   return (
     <div className="w-screen h-screen overflow-hidden">
       <Sidebar
-        expanded={expanded}
         primaryNavItems={primaryNavItems}
         secondaryNavItems={secondaryNavItems}
       />
       <main className="flex flex-col items-center justify-center gap-4 px-2 py-10 sm:px-10">
-        <Switch checked={expanded} onCheckedChange={setExpanded} />
         {children}
       </main>
     </div>

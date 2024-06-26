@@ -5,7 +5,6 @@ export type NavButtonProps = {
 };
 
 export type SidebarProps = {
-  expanded: boolean;
   primaryNavItems: NavButtonProps[];
   secondaryNavItems: NavButtonProps[];
 };
