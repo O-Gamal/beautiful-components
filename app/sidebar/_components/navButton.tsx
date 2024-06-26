@@ -29,9 +29,9 @@ const NavButton = ({ title, href, icon, expanded = false }: NavButtonProps) => {
           <motion.div
             layout
             className={cn(
-              "flex items-center justify-between gap-0.5 rounded-lg text-muted-foreground transition-colors p-1",
+              "relative flex items-center justify-between gap-0.5 rounded-lg text-muted-foreground transition-colors p-1",
               {
-                "bg-primary-50 dark:bg-primary-900 text-accent-foreground text-primary-500 dark:text-primary-400":
+                "text-accent-foreground text-primary-500 dark:text-primary-400":
                   isActive,
               },
               {
@@ -58,9 +58,26 @@ const NavButton = ({ title, href, icon, expanded = false }: NavButtonProps) => {
               </AnimatePresence>
               {!expanded && <span className="sr-only">{title}</span>}
             </div>
-            {expanded && isActive && (
-              <ChevronRight className={cn("h-4 w-4 mr-1 text-primary-400")} />
-            )}
+            <AnimatePresence>
+              {expanded && isActive && (
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, transition: { delay: 0 } }}
+                  transition={{ duration: 0.3, delay: 0.15 }}
+                >
+                  <ChevronRight
+                    className={cn("h-4 w-4 mr-1 text-primary-400")}
+                  />
+                </motion.span>
+              )}
+            </AnimatePresence>
+            {isActive ? (
+              <motion.div
+                layoutId="tab-indicator"
+                className="absolute inset-0 -z-10 rounded-lg bg-primary-50 dark:bg-primary-900"
+              />
+            ) : null}
           </motion.div>
         </Link>
       </TooltipTrigger>
