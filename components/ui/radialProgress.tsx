@@ -1,8 +1,8 @@
 "use client";
-
 import { cn } from "@/lib/utils";
 import * as Progress from "@radix-ui/react-progress";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 type RadialProgressProps = {
   value: number;
@@ -15,11 +15,14 @@ const RadialProgress = ({
   size = 120,
   className,
 }: RadialProgressProps) => {
+  const [animatedValue, setAnimatedValue] = useState(0);
   const strokeWidth = size / 8;
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
-  const strokeDashoffset = circumference - (value / 100) * circumference;
-  const progressPercentage = `${value}%`;
+
+  useEffect(() => {
+    setAnimatedValue(value);
+  }, [value]);
 
   return (
     <div
@@ -33,7 +36,7 @@ const RadialProgress = ({
           width: size,
           height: size,
         }}
-        value={value}
+        value={animatedValue}
       >
         <svg width={size} height={size}>
           <circle
@@ -46,29 +49,37 @@ const RadialProgress = ({
             cy={size / 2}
           />
           <Progress.Indicator asChild>
-            <circle
+            <motion.circle
               className="text-primary-500"
               strokeWidth={strokeWidth}
               strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
               stroke="currentColor"
               fill="transparent"
               r={radius}
               cx={size / 2}
               cy={size / 2}
+              initial={{ strokeDashoffset: circumference }}
+              animate={{
+                strokeDashoffset:
+                  circumference - (animatedValue / 100) * circumference,
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
             />
           </Progress.Indicator>
         </svg>
       </Progress.Root>
       <div className="absolute inset-0 flex items-center justify-center text-primary">
-        <span
+        <motion.span
           className="block font-semibold"
           style={{
             fontSize: size / 4,
           }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          {progressPercentage}
-        </span>
+          {`${animatedValue}%`}
+        </motion.span>
       </div>
     </div>
   );
